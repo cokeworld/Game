@@ -12,7 +12,7 @@ button {
   background: transparent;
 }
 .game {
-  background: url(carrot/img/background.png) center/cover;
+  background: url(img/background.png) center/cover;
   width: 700px;
   height: 400px;
   border-radius: 20px;
