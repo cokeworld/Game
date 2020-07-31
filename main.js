@@ -12,6 +12,7 @@ const gameScore = document.querySelector(".game__score");
 
 const popUp = document.querySelector(".pop-up");
 const refreshBtn = document.querySelector(".pop-up__refresh");
+const popUpMessage = document.querySelector(".pop-up__message");
 
 let started = false;
 let score = 0;
@@ -34,7 +35,9 @@ function startGame() {
 }
 
 function stopGame() {
-  showPlayBtn();
+  hideGameBtn();
+  stopGameTimer();
+  showPopUpWithText("Replay❓");
 }
 
 function showStopBtn() {
@@ -43,10 +46,8 @@ function showStopBtn() {
   icon.classList.remove("fa-play");
 }
 
-function showPlayBtn() {
-  const icon = document.querySelector(".fa-stop");
-  icon.classList.add("fa-play");
-  icon.classList.remove("fa-stop");
+function hideGameBtn() {
+  gameBtn.style.visibility = "hidden";
 }
 
 function showTimerAndScore() {
@@ -55,21 +56,30 @@ function showTimerAndScore() {
 }
 
 function startGameTimer() {
-  let remaingTimeSec = GAME_DURATION_SEC;
-  updateTimerText(remaingTimeSec);
+  let remainingTimeSec = GAME_DURATION_SEC;
+  updateTimerText(remainingTimeSec);
   timer = setInterval(() => {
-    if (remaingTimeSec <= 0) {
+    if (remainingTimeSec <= 0) {
       clearInterval(timer);
       return;
     }
-    updateTimerText(--remaingTimeSec);
+    updateTimerText(--remainingTimeSec);
   }, 1000);
+}
+
+function stopGameTimer() {
+  clearInterval(timer);
 }
 
 function updateTimerText(time) {
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
   gameTimer.innerText = `${minutes}:${seconds}`;
+}
+
+function showPopUpWithText(text) {
+  popUpMessage.innerText = text;
+  popUp.classList.remove("pop-up--hide");
 }
 
 function initGame() {
