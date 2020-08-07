@@ -7,7 +7,7 @@ export default class PopUp {
     this.popUpMessage = document.querySelector(".pop-up__message");
     this.popUpRefresh.addEventListener("click", () => {
       this.onClick && this.onClick();
-      hide();
+      this.hide();
     });
   }
 
