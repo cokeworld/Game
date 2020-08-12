@@ -46,7 +46,7 @@ class Game {
 
     this.gameBtn.addEventListener("click", () => {
       if (this.started) {
-        this.stop();
+        this.stop(Reason.cancel);
       } else {
         this.start();
       }
@@ -72,26 +72,12 @@ class Game {
     sound.playBackground();
   }
 
-  stop() {
+  stop(Reason) {
     this.started = false;
     this.hideGameBtn();
     this.stopGameTimer();
     sound.stopBackground();
-    sound.playAlert();
-    this.onGameStop && this.onGameStop("cancel");
-  }
-
-  finish(win) {
-    this.started = false;
-    this.hideGameBtn();
-    if (win) {
-      sound.playGameWin();
-    } else {
-      sound.playBug();
-    }
-    this.stopGameTimer();
-    sound.stopBackground();
-    this.onGameStop && this.onGameStop(win ? "win" : "lose");
+    this.onGameStop && this.onGameStop(Reason);
   }
 
   onItemClick = (item) => {
@@ -102,10 +88,10 @@ class Game {
       this.score++;
       this.updateScoreBoard();
       if (this.score === this.carrotCount) {
-        this.finish(true);
+        this.stop(Reason.win);
       }
     } else if (item === "bug") {
-      this.finish(false);
+      this.stop(Reason.lose);
     }
   };
 
@@ -131,7 +117,7 @@ class Game {
     this.timer = setInterval(() => {
       if (remainingTimeSec <= 0) {
         clearInterval(this.timer);
-        this.finish(false);
+        this.stop(this.carrotCount === this.score ? Reason.win : Reason.lose);
         return;
       }
       this.updateTimerText(--remainingTimeSec);
