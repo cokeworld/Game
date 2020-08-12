@@ -3,7 +3,13 @@
 import Field from "./field.js";
 import * as sound from "./sound.js";
 
-export default class GameBuilder {
+export const Reason = Object.freeze({
+  win: "win",
+  lose: "lose",
+  cancel: "cancel",
+});
+
+export class GameBuilder {
   gameDuration(duration) {
     this.gameDuration = duration;
     return this;
